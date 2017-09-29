@@ -12,6 +12,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{--
+    @php
+        $renderer = Debugbar::getJavascriptRenderer();
+        $renderer->render();
+    @endphp
+    --}}
+
 </head>
 <body>
     <div id="app">
