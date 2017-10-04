@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,7 +20,6 @@ class SendReminderEmail implements ShouldQueue
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -29,6 +29,6 @@ class SendReminderEmail implements ShouldQueue
      */
     public function handle()
     {
-        //
+        factory(User::class, 1)->create();
     }
 }

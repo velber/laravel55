@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendReminderEmail;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Jobs\Job;
+use Redis;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        Redis::set('name', 'Taylor');
+        $user = Redis::get('name');
+//        dd($user);
+
+        SendReminderEmail::dispatch();
         return view('home');
     }
 }
