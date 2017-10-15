@@ -14,8 +14,8 @@ class TestException extends Exception
     {
 //        Bugsnag::notifyException($this);
 //        Bugsnag::notifyError('ErrorType', 'Test Error');
-        Log::error('Test Exception!');
-        Mail::send(new ErrorNotificationMail($this->getMessage()));
+//        Log::error('Test Exception!');
+//        Mail::send(new ErrorNotificationMail($this->getMessage()));
     }
 
     public function render($request)

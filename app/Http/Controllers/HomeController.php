@@ -30,18 +30,18 @@ class HomeController extends Controller
     public function index()
     {
 //        Redis::set('name', 'Taylor');
-        $user = Redis::get('name');
+//        $user = Redis::get('name');
 //        dd($user);
+//        SendReminderEmail::dispatch();
 //        Log::error('sss', ['id' => 23, 'name' => 14]);
 //        Log::alert('sss', ['id' => 23, 'name' => 14]);
 //        $bugsnag->notifyError('ErrorType', 'Test Error');
 
-//        SendReminderEmail::dispatch();
-        try {
-            throw new TestException('Some Exception!');
-        } catch (TestException $e) {
-            report($e);
-        }
+//        try {
+//            throw new TestException('Some Exception!');
+//        } catch (TestException $e) {
+//            report($e);
+//        }
 
         return view('home');
     }
