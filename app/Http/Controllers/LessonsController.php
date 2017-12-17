@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class LessonsController extends Controller
 {
+    const LIMIT = 10;
+    const LIMIT_MIN = 5;
+    const LIMIT_MAX = 20;
+
+    protected $limitMin = 5;
 
     public function __construct()
     {
@@ -16,15 +21,19 @@ class LessonsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lessons = Lesson::all('title');
+        $limit = $request->get('limit');
+        $limit = $limit && $limit >= static::LIMIT_MIN && $limit <= static::LIMIT_MAX
+            ? $limit
+            : static::LIMIT;
 
-        return response()->json([
-            'data' => $lessons,
-        ], 200);
+        $lessons = Lesson::paginate($limit);
+
+        return response()->json([$lessons], 200);
     }
 
     /**
