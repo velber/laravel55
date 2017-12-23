@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+    $api->resource('lessons', 'App\Http\Controllers\LessonsController');
+});
+$api->version('v2', ['previx' => 'v2'], function ($api) {
+    $api->resource('v2/lessons', 'App\Http\Controllers\LessonsController');
 });
