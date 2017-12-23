@@ -21,4 +21,41 @@
 //     el: '#app'
 // });
 
-console.log('sss')
+
+// classes
+class User {
+    constructor (name) {
+        this.name = name;
+    }
+
+    fire() {
+        return this.name;
+    }
+}
+
+// let
+// const
+// var - very top.
+
+// console.log(new User('Igor').fire());
+
+// arrows
+let names = ['Igog', 'Vasil', 'Pavlo'];
+
+// names.forEach(name => console.log(name));
+names.forEach((name) => `My name is ${name}`); // return not needed
+
+// default parameters
+function defaultParameters(n = 4) {
+    // console.log(n);
+}
+
+defaultParameters();
+
+//-----------------
+// rest
+function sum(...numbers) {
+    // numbers is array
+    return numbers.reduce((next, current) => next + current);
+}
+console.log(sum(1, 2, 3, 4, 5, 6, 7));

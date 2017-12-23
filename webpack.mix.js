@@ -20,4 +20,5 @@ mix.scripts([
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .extract(['vue', 'jquery', 'bootstrap-sass'])
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .browserSync('laravel55.dev');
