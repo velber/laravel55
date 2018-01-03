@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\TestException;
 use App\Jobs\SendReminderEmail;
+use App\Libs\UserService;
+use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
@@ -12,14 +14,17 @@ use Redis;
 
 class HomeController extends Controller
 {
+    protected $users;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $users)
     {
         $this->middleware('auth');
+        $this->users = $users;
     }
 
     /**
@@ -29,6 +34,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+        /**
+         * DI
+         */
+//        $a = app()->make(UserService::class);
+//        $a = resolve(UserService::class);
+//        dd($a->all());
+
+        /**
+         * Redis
+         */
 //        Redis::set('name', 'Taylor');
 //        $user = Redis::get('name');
 //        dd($user);
