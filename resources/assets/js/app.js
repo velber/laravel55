@@ -1,61 +1,143 @@
-//
-// /**
-//  * First we will load all of this project's JavaScript dependencies which
-//  * includes Vue and other libraries. It is a great starting point when
-//  * building robust, powerful web applications using Vue and Laravel.
-//  */
-//
-// require('./bootstrap');
-//
-// window.Vue = require('vue');
-//
-// /**
-//  * Next, we will create a fresh Vue application instance and attach it to
-//  * the page. Then, you may begin adding components to this application
-//  * or customize the JavaScript scaffolding to fit your unique needs.
-//  */
-//
-// Vue.component('example', require('./components/Example.vue'));
-//
-// const app = new Vue({
-//     el: '#app'
-// });
+/*****
+ * CONFIGURATION
+ */
 
+//Main navigation
+$.navigation = $('nav > ul.nav');
 
-// classes
-class User {
-    constructor (name) {
-        this.name = name;
+$.panelIconOpened = 'icon-arrow-up';
+$.panelIconClosed = 'icon-arrow-down';
+
+//Default colours
+$.brandPrimary =  '#20a8d8';
+$.brandSuccess =  '#4dbd74';
+$.brandInfo =     '#63c2de';
+$.brandWarning =  '#f8cb00';
+$.brandDanger =   '#f86c6b';
+
+$.grayDark =      '#2a2c36';
+$.gray =          '#55595c';
+$.grayLight =     '#818a91';
+$.grayLighter =   '#d1d4d7';
+$.grayLightest =  '#f8f9fa';
+
+'use strict';
+
+/****
+ * MAIN NAVIGATION
+ */
+
+$(document).ready(function($){
+
+    // Add class .active to current link
+    $.navigation.find('a').each(function(){
+
+        var cUrl = String(window.location).split('?')[0];
+
+        if (cUrl.substr(cUrl.length - 1) == '#') {
+            cUrl = cUrl.slice(0,-1);
+        }
+
+        if ($($(this))[0].href==cUrl) {
+            $(this).addClass('active');
+
+            $(this).parents('ul').add(this).each(function(){
+                $(this).parent().addClass('open');
+            });
+        }
+    });
+
+    // Dropdown Menu
+    $.navigation.on('click', 'a', function(e){
+
+        if ($.ajaxLoad) {
+            e.preventDefault();
+        }
+
+        if ($(this).hasClass('nav-dropdown-toggle')) {
+            $(this).parent().toggleClass('open');
+            resizeBroadcast();
+        }
+
+    });
+
+    function resizeBroadcast() {
+
+        var timesRun = 0;
+        var interval = setInterval(function(){
+            timesRun += 1;
+            if(timesRun === 5){
+                clearInterval(interval);
+            }
+            window.dispatchEvent(new Event('resize'));
+        }, 62.5);
     }
 
-    fire() {
-        return this.name;
+    /* ---------- Main Menu Open/Close, Min/Full ---------- */
+    $('.sidebar-toggler').click(function(){
+        $('body').toggleClass('sidebar-hidden');
+        resizeBroadcast();
+    });
+
+    $('.sidebar-minimizer').click(function(){
+        $('body').toggleClass('sidebar-minimized');
+        resizeBroadcast();
+    });
+
+    $('.brand-minimizer').click(function(){
+        $('body').toggleClass('brand-minimized');
+    });
+
+    $('.aside-menu-toggler').click(function(){
+        $('body').toggleClass('aside-menu-hidden');
+        resizeBroadcast();
+    });
+
+    $('.mobile-sidebar-toggler').click(function(){
+        $('body').toggleClass('sidebar-mobile-show');
+        resizeBroadcast();
+    });
+
+    $('.sidebar-close').click(function(){
+        $('body').toggleClass('sidebar-opened').parent().toggleClass('sidebar-opened');
+    });
+
+    /* ---------- Disable moving to top ---------- */
+    $('a[href="#"][data-top!=true]').click(function(e){
+        e.preventDefault();
+    });
+
+});
+
+/****
+ * CARDS ACTIONS
+ */
+
+$(document).on('click', '.card-actions a', function(e){
+    e.preventDefault();
+
+    if ($(this).hasClass('btn-close')) {
+        $(this).parent().parent().parent().fadeOut();
+    } else if ($(this).hasClass('btn-minimize')) {
+        var $target = $(this).parent().parent().next('.card-body');
+        if (!$(this).hasClass('collapsed')) {
+            $('i',$(this)).removeClass($.panelIconOpened).addClass($.panelIconClosed);
+        } else {
+            $('i',$(this)).removeClass($.panelIconClosed).addClass($.panelIconOpened);
+        }
+
+    } else if ($(this).hasClass('btn-setting')) {
+        $('#myModal').modal('show');
     }
+
+});
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// let
-// const
-// var - very top.
+function init(url) {
 
-// console.log(new User('Igor').fire());
-
-// arrows
-let names = ['Igog', 'Vasil', 'Pavlo'];
-
-// names.forEach(name => console.log(name));
-names.forEach((name) => `My name is ${name}`); // return not needed
-
-// default parameters
-function defaultParameters(n = 4) {
-    // console.log(n);
+    /* ---------- Tooltip ---------- */
+    $('[rel="tooltip"],[data-rel="tooltip"]').tooltip({"placement":"bottom",delay: { show: 400, hide: 200 }});
 }
-
-defaultParameters();
-
-//-----------------
-// rest
-function sum(...numbers) {
-    // numbers is array
-    return numbers.reduce((next, current) => next + current);
-}
-console.log(sum(1, 2, 3, 4, 5, 6, 7));
