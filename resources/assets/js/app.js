@@ -141,3 +141,19 @@ function init(url) {
     /* ---------- Tooltip ---------- */
     $('[rel="tooltip"],[data-rel="tooltip"]').tooltip({"placement":"bottom",delay: { show: 400, hide: 200 }});
 }
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+
+import Echo from "laravel-echo";
+import Pusher from "pusher-js";
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'e514de3621377e6f8e65',
+    cluster: 'eu',
+    encrypted: true
+});
+
+window.Echo.channel('notify').listen('Test', e => {
+    console.log(e.user);
+});

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Test;
 use App\Exceptions\TestException;
 use App\Jobs\SendReminderEmail;
 use App\Libs\UserService;
 use App\Repositories\UserRepository;
 use App\User;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Log;
+use Pusher\Pusher;
 use Redis;
 
 class HomeController extends Controller
@@ -57,6 +60,24 @@ class HomeController extends Controller
 //        } catch (TestException $e) {
 //            report($e);
 //        }
+
+
+        event(new Test());
+
+        $options = array(
+            'cluster' => 'eu',
+            'encrypted' => true
+        );
+        $pusher = new \Pusher\Pusher(
+            'e514de3621377e6f8e65',
+            '24934f893f15f1460e72',
+            '458708',
+            $options
+        );
+
+        $data['message'] = 'hello world';
+        $pusher->trigger('notify', 'Test', $data);
+
 
         return view('home');
     }
